@@ -32,9 +32,9 @@ public static class DependencyInjection
         services.AddScoped<ApplicationDbContextInitialiser>();
 
         services
-            .AddDefaultIdentity<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddSingleton(TimeProvider.System);
         services.AddTransient<IIdentityService, IdentityService>();
