@@ -4,12 +4,7 @@ using SmartInventory.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContextFactory<ApplicationDbContext>((options) =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
-        throw new InvalidOperationException("Default database connection string not found!. ")
-        );
-});
+
 // Add services to the container.
 builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
 
