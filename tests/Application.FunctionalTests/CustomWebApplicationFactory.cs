@@ -27,8 +27,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureTestServices(services =>
         {
             services
-                .RemoveAll<IUser>()
-                .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
+                .RemoveAll<IUser<Guid?>>()
+                .AddTransient(provider => Mock.Of<IUser<Guid?>>(s => s.Id == GetUserId()));
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()

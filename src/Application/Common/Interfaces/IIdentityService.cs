@@ -2,15 +2,15 @@
 
 namespace SmartInventory.Application.Common.Interfaces;
 
-public interface IIdentityService
+public interface IIdentityService<T>
 {
-    Task<string?> GetUserNameAsync(string userId);
+    Task<string?> GetUserNameAsync(T userId);
 
-    Task<bool> IsInRoleAsync(string userId, string role);
+    Task<bool> IsInRoleAsync(T userId, string role);
 
-    Task<bool> AuthorizeAsync(string userId, string policyName);
+    Task<bool> AuthorizeAsync(T userId, string policyName);
 
-    Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
+    Task<(Result Result, T UserId)> CreateUserAsync(string userName, string password);
 
-    Task<Result> DeleteUserAsync(string userId);
+    Task<Result> DeleteUserAsync(T userId);
 }

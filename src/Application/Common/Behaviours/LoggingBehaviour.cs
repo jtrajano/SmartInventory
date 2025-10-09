@@ -7,10 +7,10 @@ namespace SmartInventory.Application.Common.Behaviours;
 public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
     private readonly ILogger _logger;
-    private readonly IUser _user;
-    private readonly IIdentityService _identityService;
+    private readonly IUser<Guid?> _user;
+    private readonly IIdentityService<Guid> _identityService;
 
-    public LoggingBehaviour(ILogger<TRequest> logger, IUser user, IIdentityService identityService)
+    public LoggingBehaviour(ILogger<TRequest> logger, IUser<Guid?> user, IIdentityService<Guid> identityService)
     {
         _logger = logger;
         _user = user;
@@ -20,10 +20,10 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = _user.Id ?? string.Empty;
+        var userId = _user.Id ?? Guid.Empty;
         string? userName = string.Empty;
 
-        if (!string.IsNullOrEmpty(userId))
+        if (Guid.Empty != userId)
         {
             userName = await _identityService.GetUserNameAsync(userId);
         }

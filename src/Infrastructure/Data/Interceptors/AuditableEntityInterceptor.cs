@@ -8,11 +8,11 @@ namespace SmartInventory.Infrastructure.Data.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
-    private readonly IUser _user;
+    private readonly IUser<Guid?> _user;
     private readonly TimeProvider _dateTime;
 
     public AuditableEntityInterceptor(
-        IUser user,
+        IUser<Guid?> user,
         TimeProvider dateTime)
     {
         _user = user;

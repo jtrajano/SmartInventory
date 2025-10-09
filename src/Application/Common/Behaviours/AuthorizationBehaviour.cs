@@ -7,12 +7,12 @@ namespace SmartInventory.Application.Common.Behaviours;
 
 public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    private readonly IUser _user;
-    private readonly IIdentityService _identityService;
+    private readonly IUser<Guid?> _user;
+    private readonly IIdentityService<Guid> _identityService;
 
     public AuthorizationBehaviour(
-        IUser user,
-        IIdentityService identityService)
+        IUser<Guid?> user,
+        IIdentityService<Guid> identityService)
     {
         _user = user;
         _identityService = identityService;
@@ -41,7 +41,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
                 {
                     foreach (var role in roles)
                     {
-                        var isInRole = await _identityService.IsInRoleAsync(_user.Id, role.Trim());
+                        var isInRole = await _identityService.IsInRoleAsync((Guid) _user.Id, role.Trim());
                         if (isInRole)
                         {
                             authorized = true;
@@ -63,7 +63,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             {
                 foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
                 {
-                    var authorized = await _identityService.AuthorizeAsync(_user.Id, policy);
+                    var authorized = await _identityService.AuthorizeAsync((Guid)_user.Id, policy);
 
                     if (!authorized)
                     {

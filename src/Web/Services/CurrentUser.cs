@@ -4,7 +4,7 @@ using SmartInventory.Application.Common.Interfaces;
 
 namespace SmartInventory.Web.Services;
 
-public class CurrentUser : IUser
+public class CurrentUser : IUser<Guid?>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -12,6 +12,12 @@ public class CurrentUser : IUser
     {
         _httpContextAccessor = httpContextAccessor;
     }
-
-    public string? Id => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public Guid? Id { get {
+            var id = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id == null) return null;
+            return new Guid(id);
+        } 
+    
+    }
+   // public Guid? Id { get { return _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)} }
 }
