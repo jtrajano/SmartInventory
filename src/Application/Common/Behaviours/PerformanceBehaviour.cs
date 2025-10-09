@@ -9,12 +9,12 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     private readonly Stopwatch _timer;
     private readonly ILogger<TRequest> _logger;
     private readonly IUser<Guid?> _user;
-    private readonly IIdentityService<Guid?> _identityService;
+    private readonly IIdentityService<Guid> _identityService;
 
     public PerformanceBehaviour(
         ILogger<TRequest> logger,
         IUser<Guid?> user,
-        IIdentityService<Guid?> identityService)
+        IIdentityService<Guid> identityService)
     {
         _timer = new Stopwatch();
 
@@ -39,9 +39,9 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
             var userId = _user.Id;
             var userName = string.Empty;
 
-            if (userId != Guid.Empty)
+            if (userId != null)
             {
-                userName = await _identityService.GetUserNameAsync(userId);
+                userName = await _identityService.GetUserNameAsync((Guid) userId);
             }
 
             _logger.LogWarning("SmartInventory Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
