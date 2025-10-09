@@ -20,23 +20,23 @@ jobs:
     with:
       build-artifacts: true
 
-  deploy-development:
-    uses: ./.github/workflows/deploy.yml
-    secrets: inherit
-    needs: [ build ]
-    with:
-      environmentName: Development
+ # deploy-development:
+ #   uses: ./.github/workflows/deploy.yml
+ #   secrets: inherit
+ #   needs: [ build ]
+ #   with:
+ #     environmentName: Development
 
-  deploy-staging:
-    uses: ./.github/workflows/deploy.yml
-    secrets: inherit
-    needs: [ deploy-development ]
-    with:
-      environmentName: Staging
+ # deploy-staging:
+ #   uses: ./.github/workflows/deploy.yml
+ #   secrets: inherit
+ #   needs: [ deploy-development ]
+ #   with:
+ #     environmentName: Staging
 
-  deploy-production:
-    uses: ./.github/workflows/deploy.yml
-    secrets: inherit
-    needs: [ deploy-staging ]
-    with:
-      environmentName: Production
+ # deploy-production:
+ #   uses: ./.github/workflows/deploy.yml
+ #   secrets: inherit
+ #   needs: [ deploy-staging ]
+ #   with:
+ #    environmentName: Production
