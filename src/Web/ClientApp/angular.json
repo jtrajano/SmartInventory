@@ -69,13 +69,17 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl": true,
+            "sslCert": "ssl/localhost.pem",
+            "sslKey": "ssl/localhost-key.pem"
+          },
           "configurations": {
             "production": {
               "browserTarget": "SmartInventory.Web:build:production"
             },
             "development": {
-              "browserTarget": "SmartInventory.Web:build:development",
-              "proxyConfig": "proxy.conf.js"
+              "browserTarget": "SmartInventory.Web:build:development"
             }
           },
           "defaultConfiguration": "development"
