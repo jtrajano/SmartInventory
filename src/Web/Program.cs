@@ -49,6 +49,16 @@ app.MapFallbackToFile("index.html");
 app.UseExceptionHandler(options => { });
 
 
+app.UseCors(x=> {
+    x
+    .WithOrigins("http://localhost:4200", "https://localhost:4200")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials();
+});
+
+
+
 app.MapEndpoints();
 
 app.Run();
