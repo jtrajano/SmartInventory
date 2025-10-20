@@ -14,6 +14,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TodoComponent } from './todo/todo.component';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { API_BASE_URL } from './web-api-client';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ModalModule.forRoot()
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: API_BASE_URL, useValue:environment.API_BASE_URL}
   ],
   bootstrap: [AppComponent]
 })
