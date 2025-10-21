@@ -72,21 +72,45 @@ public class ApplicationDbContextInitialiser
     {
         // Default roles
         var administratorRole = new IdentityRole<Guid>(Roles.Administrator);
-
+        var employeeRole = new IdentityRole<Guid>(Roles.Employee);
+        var memberRole = new IdentityRole<Guid>(Roles.Member);
+        var managerRole = new IdentityRole<Guid>(Roles.Manager);
         if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
         {
             await _roleManager.CreateAsync(administratorRole);
         }
 
-        // Default users
-        var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
+        if (_roleManager.Roles.All(r => r.Name != employeeRole.Name))
+        {
+            await _roleManager.CreateAsync(employeeRole);
+        }
 
-        if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+        if (_roleManager.Roles.All(r => r.Name != memberRole.Name))
+        {
+            await _roleManager.CreateAsync(memberRole);
+        }
+        if (_roleManager.Roles.All(r => r.Name != memberRole.Name))
+        {
+            await _roleManager.CreateAsync(memberRole);
+        }
+        if (_roleManager.Roles.All(r => r.Name != managerRole.Name))
+        {
+            await _roleManager.CreateAsync(managerRole);
+        }
+
+        // Default users
+        var administrator = new ApplicationUser { 
+            UserName = "administrator@localhost", 
+            Email = "administrator@localhost",
+            Role = Roles.Administrator
+        };
+
+        if (!_userManager.Users.Any(u => u.UserName == administrator.UserName))
         {
             await _userManager.CreateAsync(administrator, "Administrator1!");
             if (!string.IsNullOrWhiteSpace(administratorRole.Name))
             {
-                await _userManager.AddToRolesAsync(administrator, new [] { administratorRole.Name });
+                await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
             }
         }
 
