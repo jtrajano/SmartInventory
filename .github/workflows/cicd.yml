@@ -2,7 +2,9 @@ name: CICD
 
 on: 
   push:
-    branches: [ dev ]
+    branches: 
+      - dev
+      - main
     paths-ignore:
       - .gitignore
       - CODE_OF_CONDUCT.md
