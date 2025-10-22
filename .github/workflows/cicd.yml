@@ -22,12 +22,16 @@ jobs:
     with:
       build-artifacts: true
 
-  deploy-development:
+  deploy:
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
     needs: [ build ]
     with:
-      environmentName: Development
+      environmentName:  
+        ${{(github.ref == 'refs/heads/main' && 'production') ||
+          (github.ref == 'refs/heads/staging' && 'staging') ||
+          (startsWith(github.ref, 'refs/heads/feature/') && 'development') ||
+          'development'}}
 
  # deploy-staging:
  #   uses: ./.github/workflows/deploy.yml
