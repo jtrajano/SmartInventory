@@ -1,7 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
+using SmartInventory.Application.Features.Auth.Login;
+using SmartInventory.Infrastructure.Data;
 using SmartInventory.Infrastructure.Identity;
+using SmartInventory.Infrastructure.Identity.Services;
 
 
 namespace SmartInventory.Web.Endpoints;
@@ -16,29 +19,42 @@ public class Identity : EndpointGroupBase
             .MapPost("/login", Login);
     }
 
-    public async Task<IResult> Register(RegisterRequest req, UserManager<ApplicationUser> userManager )
+    public async Task<IResult> Register(RegisterRequest req, UserManager<ApplicationUser> userManager, ApplicationDbContext context )
     {
+
         var user = new ApplicationUser         {
             UserName = req.Email,
             Email = req.Email
         };
-        var result = await userManager.CreateAsync(user, req.Password);
-
-        if(!result.Succeeded)
+        await context.Database.BeginTransactionAsync();
+            var result = await userManager.CreateAsync(user, req.Password);
+            await userManager.AddToRoleAsync(user,"Member");
+        await context.Database.CommitTransactionAsync();
+        if (!result.Succeeded)
             return Results.BadRequest(result.Errors);
 
         return Results.Ok("User registered successfully");
     }
 
-    public async Task<IResult> Login(LoginRequest req, SignInManager<ApplicationUser> signInManager)
+    public async Task<IResult> Login(LoginRequest req,
+        SignInManager<ApplicationUser> signInManager,
+        JwtTokenService jwtService,
+        UserManager<ApplicationUser> userManager
+        )
     {
+        var user = await userManager.FindByEmailAsync(req.Email);
+
+        if (user == null)
+            return Results.Unauthorized();
+
         // Implement login logic here
-        var result = await signInManager.PasswordSignInAsync(req.Email, req.Password, isPersistent: false, lockoutOnFailure: false);
+        var result = await signInManager.CheckPasswordSignInAsync(user, req.Password, false);
         if(!result.Succeeded)
             return Results.Unauthorized();
 
+        var roles = await userManager.GetRolesAsync(user);
+        var token = jwtService.GenerateToken(user, roles);
 
-
-        return Results.Ok("Login successful");
+        return Results.Ok(new LoginResponse(token, DateTime.Now.AddHours(2))); ;
     }
 }

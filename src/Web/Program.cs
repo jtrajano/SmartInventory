@@ -20,7 +20,6 @@ if (app.Environment.IsDevelopment())
     await app.InitialiseDatabaseAsync();
     app.UseOpenApi();
     app.UseSwaggerUi3();
-
 }
 else
 {
@@ -57,7 +56,8 @@ app.UseCors(x=> {
     .AllowCredentials();
 });
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapEndpoints();
 
