@@ -1,8 +1,11 @@
 name: Build
 
 on:
+  workflow_dispatch:
   pull_request:
-    branches: [ main ]
+    branches: 
+      - dev
+      - main
     paths-ignore:
       - '.scripts/**'
       - .gitignore
