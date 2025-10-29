@@ -30,8 +30,8 @@ jobs:
       environmentName:  
         ${{(github.ref == 'refs/heads/main' && 'production') ||
           (github.ref == 'refs/heads/staging' && 'staging') ||
-          (startsWith(github.ref, 'refs/heads/feature/') && 'development') ||
-          'development'}}
+          (startsWith(github.ref, 'refs/heads/feature/') && 'Development') ||
+          'Development'}}
 
  # deploy-staging:
  #   uses: ./.github/workflows/deploy.yml
