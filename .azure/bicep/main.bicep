@@ -88,7 +88,6 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: applicationInsightsName
   location: location
   kind: 'web'
-  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     Application_Type: 'web'
     WorkspaceResourceId: logAnalyticsWorkspace.id
@@ -133,7 +132,6 @@ resource keyVault_ConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2019
 resource keyVault_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: keyVault
   name: 'keyVaultDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
@@ -160,7 +158,6 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-15' = {
 resource appServicePlan_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServicePlan
   name: 'appServicePlanDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     metrics: [
@@ -201,7 +198,6 @@ resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
 resource appServiceApp_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServiceApp
   name: 'appServiceAppDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
