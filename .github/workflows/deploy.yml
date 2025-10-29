@@ -29,6 +29,7 @@ jobs:
          tenant-id: ${{ vars.AZURE_TENANT_ID }}
          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
          auth-type: SERVICE_PRINCIPAL
+         client-secret: {{ secrets.AZURE_CLIENT_SECRET }}
 
      - if: inputs.environmentName == 'Development'
        uses: azure/arm-deploy@v1
@@ -81,6 +82,7 @@ jobs:
         tenant-id: ${{ vars.AZURE_TENANT_ID }}
         subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
         auth-type: SERVICE_PRINCIPAL
+        client-secret: {{ secrets.AZURE_CLIENT_SECRET }}
 
     - uses: azure/arm-deploy@v1
       id: deploy
