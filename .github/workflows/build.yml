@@ -42,7 +42,7 @@ jobs:
       with:
         node-version: '18.x'
         cache: 'npm'
-        cache-dependency-path: src/Client/package-lock.json
+        cache-dependency-path: src/Client/smart-inventory-client/package-lock.json
 
     - name: Install .NET
       uses: actions/setup-dotnet@v3
