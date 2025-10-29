@@ -300,7 +300,6 @@ resource sqlServer_FirewallRule 'Microsoft.Sql/servers/firewallRules@2021-02-01-
 resource sqlDatabase_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: sqlDatabase
   name: 'sqlDatabaseDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
