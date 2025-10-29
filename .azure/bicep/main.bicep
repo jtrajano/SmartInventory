@@ -84,6 +84,17 @@ var sqlDatabaseName = '${projectName}-${environmentAbbreviation}'
 var appServicePlanSku = environmentConfigurationMap[environmentName].appServicePlan.sku
 var sqlDatabaseSku = environmentConfigurationMap[environmentName].sqlDatabase.sku
 
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: applicationInsightsName
+  location: location
+  kind: 'web'
+  dependsOn: [ logAnalyticsWorkspace ]
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
+  }
+}
+
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' = {
   name: logAnalyticsWorkspaceName
   location: location
@@ -122,7 +133,7 @@ resource keyVault_ConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2019
 resource keyVault_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: keyVault
   name: 'keyVaultDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ],
+  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
@@ -149,7 +160,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-15' = {
 resource appServicePlan_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServicePlan
   name: 'appServicePlanDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ],
+  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     metrics: [
@@ -190,7 +201,7 @@ resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
 resource appServiceApp_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServiceApp
   name: 'appServiceAppDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ],
+  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
@@ -255,15 +266,6 @@ resource keyVault_AccessPolicy 'Microsoft.KeyVault/vaults/accessPolicies@2022-07
   }
 }
 
-resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: applicationInsightsName
-  location: location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: logAnalyticsWorkspace.id
-  }
-}
 
 resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
   name: sqlServerName
@@ -302,7 +304,7 @@ resource sqlServer_FirewallRule 'Microsoft.Sql/servers/firewallRules@2021-02-01-
 resource sqlDatabase_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: sqlDatabase
   name: 'sqlDatabaseDiagnosticSettings'
-  dependsOn: [ logAnalyticsWorkspace ],
+  dependsOn: [ logAnalyticsWorkspace ]
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
