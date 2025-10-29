@@ -122,6 +122,7 @@ resource keyVault_ConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2019
 resource keyVault_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: keyVault
   name: 'keyVaultDiagnosticSettings'
+  dependsOn: [ logAnalyticsWorkspace ],
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
@@ -148,6 +149,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-15' = {
 resource appServicePlan_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServicePlan
   name: 'appServicePlanDiagnosticSettings'
+  dependsOn: [ logAnalyticsWorkspace ],
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     metrics: [
@@ -188,6 +190,7 @@ resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
 resource appServiceApp_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: appServiceApp
   name: 'appServiceAppDiagnosticSettings'
+  dependsOn: [ logAnalyticsWorkspace ],
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
@@ -299,6 +302,7 @@ resource sqlServer_FirewallRule 'Microsoft.Sql/servers/firewallRules@2021-02-01-
 resource sqlDatabase_DiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: sqlDatabase
   name: 'sqlDatabaseDiagnosticSettings'
+  dependsOn: [ logAnalyticsWorkspace ],
   properties: {
     workspaceId: logAnalyticsWorkspace.id
     logs: [
