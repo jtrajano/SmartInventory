@@ -28,7 +28,7 @@ jobs:
          client-id: ${{ vars.AZURE_CLIENT_ID }}
          tenant-id: ${{ vars.AZURE_TENANT_ID }}
          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-         auth-type: federated
+         auth-type: 'Federated'
 
      - if: inputs.environmentName == 'Development'
        uses: azure/arm-deploy@v1
@@ -80,7 +80,7 @@ jobs:
         client-id: ${{ vars.AZURE_CLIENT_ID }}
         tenant-id: ${{ vars.AZURE_TENANT_ID }}
         subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-        auth-type: federated
+        auth-type: 'Federated'
 
     - uses: azure/arm-deploy@v1
       id: deploy
