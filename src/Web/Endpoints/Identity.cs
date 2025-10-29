@@ -1,7 +1,10 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.Features.Auth.Login;
+using SmartInventory.Domain.Entities;
 using SmartInventory.Infrastructure.Data;
 using SmartInventory.Infrastructure.Identity;
 using SmartInventory.Infrastructure.Identity.Services;
@@ -13,10 +16,18 @@ public class Identity : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
-            .MapPost("/register", Register);
-        app.MapGroup(this)
-            .MapPost("/login", Login);
+        var grp = app.MapGroup(this);
+
+        grp.MapPost("/register", Register);
+        grp.MapPost("/login", Login);
+        grp.MapGet("/auth-status", IsAuthenticated);
+        
+    }
+
+    public IResult IsAuthenticated()
+    {
+        
+        return Results.Ok(false);
     }
 
     public async Task<IResult> Register(RegisterRequest req, UserManager<ApplicationUser> userManager, ApplicationDbContext context )

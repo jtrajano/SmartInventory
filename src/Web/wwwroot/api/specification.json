@@ -56,6 +56,19 @@
         }
       }
     },
+    "/api/Identity/auth-status": {
+      "get": {
+        "tags": [
+          "Identity"
+        ],
+        "operationId": "GetApiIdentityAuthStatus",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "get": {
         "tags": [
