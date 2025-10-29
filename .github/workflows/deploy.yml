@@ -25,9 +25,9 @@ jobs:
      - uses: azure/login@v1
        name: Login to Azure
        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F967A881A5B14EA3A7FD9E56C566F903 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BA924C87D9B94D2D96240036A697914F }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B73F4D92840F4A92B2BFAC09F1A710C9 }}
+         client-id: ${{ vars.AZURE_CLIENT_ID }}
+         tenant-id: ${{ vars.AZURE_TENANT_ID }}
+         subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
      - if: inputs.environmentName == 'Development'
        uses: azure/arm-deploy@v1
@@ -76,9 +76,9 @@ jobs:
     - uses: azure/login@v1
       name: Login to Azure
       with:
-        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F967A881A5B14EA3A7FD9E56C566F903 }}
-        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BA924C87D9B94D2D96240036A697914F }}
-        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B73F4D92840F4A92B2BFAC09F1A710C9 }}
+        client-id: ${{ vars.AZURE_CLIENT_ID }}
+        tenant-id: ${{ vars.AZURE_TENANT_ID }}
+        subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
     - uses: azure/arm-deploy@v1
       id: deploy
